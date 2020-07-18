@@ -1,5 +1,7 @@
 package com.example.client;
 
+import com.example.client.entities.SearchByBarcodeResult;
+import com.example.client.entities.SearchByBrandResult;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.annotation.Client;
@@ -15,7 +17,16 @@ public class OpenFoodClientImpl implements OpenFoodClient {
     RxHttpClient client;
 
     @Override
-    public String getProductsBybBarcode(Long code) {
-        return client.retrieve(HttpRequest.GET("api/v0/product/" + code)).firstElement().blockingGet();
+    public SearchByBarcodeResult getProductByBarcode(Long code) {
+        return client.retrieve(HttpRequest.GET("api/v0/product/" + code), SearchByBarcodeResult.class)
+                .firstElement()
+                .blockingGet();
+    }
+
+    @Override
+    public SearchByBrandResult getProductsByBrand(String brand) {
+        return client.retrieve(HttpRequest.GET("cgi/search.pl?action=process&json=true&brands=" + brand), SearchByBrandResult.class)
+                .firstElement()
+                .blockingGet();
     }
 }
