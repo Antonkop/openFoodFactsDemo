@@ -23,6 +23,7 @@ public class OpenFoodClientImpl implements OpenFoodClient {
                 .blockingGet();
     }
 
+    //TODO IMPLEMENT PAGINATION
     @Override
     public SearchByBrandResult getProductsByBrand(String brand) {
         return client.retrieve(HttpRequest.GET("cgi/search.pl?action=process&json=true&brands=" + brand), SearchByBrandResult.class)
